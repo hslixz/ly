@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 /**
  * 商品分类controller
+ *
  * @author l
  * @since 2019-7-12
  */
@@ -25,6 +27,7 @@ public class CategoryController {
 
     /**
      * 根据父id查询子节点
+     *
      * @param pid 夫id
      * @return 商品分类列表
      */
@@ -38,5 +41,17 @@ public class CategoryController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(categories);
+    }
+
+    @GetMapping("bid/{bid}")
+    public ResponseEntity<List<Category>> queryByBrandId(@PathVariable("bid") Long bid) {
+        if (bid == null || bid.longValue() < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        List<Category> list = categoryService.queryByBrandId(bid);
+        if (CollectionUtils.isEmpty(list)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(list);
     }
 }

@@ -16,4 +16,11 @@ public interface ICategoryService {
      * @return 商品分类列表
      */
     List<Category> queryCategoriesByPid(Long pid);
+
+    /**
+     * 根据bid查询
+     * @param bid 品牌id
+     * @return 商品分类列表
+     */
+    List<Category> queryByBrandId(Long bid);
 }
